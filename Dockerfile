@@ -7,14 +7,22 @@ RUN apt-get update && apt-get install -y \
     unzip \
     xz-utils \
     zip \
-    libglu1-mesa
+    libglu1-mesa \
+    # เพิ่มสำหรับ Android licenses
+    openjdk-11-jdk
 
 # ติดตั้ง Flutter SDK
 RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
 ENV PATH="$PATH:/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin"
 
-# ตรวจสอบสภาพแวดล้อม
-RUN flutter doctor -v
+# ตั้งค่า Flutter channel และ upgrade
+RUN flutter channel stable && flutter upgrade
+
+# ยอมรับ Android licenses
+RUN yes | flutter doctor --android-licenses
+
+# ตรวจสอบสภาพแวดล้อม (ลดการแจ้งเตือน)
+RUN flutter doctor -v --suppress-analytics --quiet
 
 # คัดลอกไฟล์โปรเจค
 COPY . /app
