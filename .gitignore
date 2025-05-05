@@ -31,7 +31,12 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
+# /build/
+# แต่ไม่ ignore build/web ทั้งหมด
+!/build/web/
+
+# (ถ้ามี .git ย่อยโผล่มา ก็ยังคง ignore)
+/build/web/.git
 
 # Symbolication related
 app.*.symbols
